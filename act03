@@ -1,0 +1,72 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Figura {
+protected:
+    double area = -1; // -1 = aún no calculado
+
+public:
+    virtual void calcularArea() = 0; // método abstracto
+    double getArea() const { return area; }
+};
+
+// Círculo
+class Circulo : public Figura {
+    double radio;
+public:
+    Circulo(double r) : radio(r) {}
+
+    void calcularArea() override {
+        if (area < 0)
+            area = M_PI * radio * radio;
+    }
+};
+
+// Cuadrado
+class Cuadrado : public Figura {
+    double lado;
+public:
+    Cuadrado(double l) : lado(l) {}
+
+    void calcularArea() override {
+        if (area < 0)
+            area = lado * lado;
+    }
+};
+
+// Triángulo
+class Triangulo : public Figura {
+    double base, altura;
+public:
+    Triangulo(double b, double h) : base(b), altura(h) {}
+
+    void calcularArea() override {
+        if (area < 0)
+            area = (base * altura) / 2;
+    }
+};
+
+// Programa principal
+int main() {
+    Circulo c(6);
+    Cuadrado q(2);
+    Triangulo t(6, 12);
+
+    // Llamamos a calcularArea una vez
+    c.calcularArea();
+    q.calcularArea();
+    t.calcularArea();
+
+    // Intentamos llamarlo otra vez (no volverá a calcular)
+    c.calcularArea();
+    q.calcularArea();
+    t.calcularArea();
+
+    // Mostramos áreas
+    cout << "Área del círculo: " << c.getArea() << endl;
+    cout << "Área del cuadrado: " << q.getArea() << endl;
+    cout << "Área del triángulo: " << t.getArea() << endl;
+
+    return 0;
+}
